@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c0gpgy6diw7gh"]
+
+[ext_resource type="Script" uid="uid://dwdh3nl5mmo8y" path="res://scripts/ui/damage_number.gd" id="1_ul084"]
+
+[node name="DamageNumber" type="Node2D" unique_id=1949655054]
+script = ExtResource("1_ul084")
+
+[node name="Label" type="Label" parent="." unique_id=497225292]
+offset_right = 40.0
+offset_bottom = 23.0

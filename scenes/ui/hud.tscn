@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bewooo82kx6o3"]
+
+[ext_resource type="Script" uid="uid://0vu0xotc8kxb" path="res://scripts/ui/hud.gd" id="1_0mwgc"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1110014038]
+script = ExtResource("1_0mwgc")
+
+[node name="HPLabel" type="Label" parent="." unique_id=714417831]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="FloorLabel" type="Label" parent="." unique_id=712111944]
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 53.0
+
+[node name="MiniMap" type="Control" parent="." unique_id=200323796]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 100.0
+grow_horizontal = 0

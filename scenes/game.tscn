@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://rvcyixk05b4l"]
+
+[ext_resource type="Texture2D" uid="uid://ckpqblwehwkw8" path="res://assets/tilesets/floor.png" id="1_lnu2h"]
+[ext_resource type="Texture2D" uid="uid://b6po8s4ebtcxr" path="res://assets/tilesets/wall.png" id="2_lbhrr"]
+[ext_resource type="Script" uid="uid://1atrrpkbn5y6" path="res://scripts/world/game_map.gd" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://co48ffdpxn4nb" path="res://scenes/entities/player.tscn" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://bewooo82kx6o3" path="res://scenes/ui/hud.tscn" id="5_iywne"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iywne"]
+texture = ExtResource("1_lnu2h")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p57ef"]
+texture = ExtResource("2_lbhrr")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_iywne"]
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_iywne")
+sources/2 = SubResource("TileSetAtlasSource_p57ef")
+
+[node name="Game" type="Node2D" unique_id=607905533]
+
+[node name="TileMap" type="TileMap" parent="." unique_id=705131105]
+tile_set = SubResource("TileSet_iywne")
+format = 2
+script = ExtResource("2_lnu2h")
+
+[node name="Player" parent="." unique_id=359338830 instance=ExtResource("4_lbhrr")]
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1404010092]
+
+[node name="HUD" parent="." unique_id=1110014038 instance=ExtResource("5_iywne")]

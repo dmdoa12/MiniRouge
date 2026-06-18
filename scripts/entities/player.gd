@@ -1,12 +1,38 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
-var stats := StatSystem.new(30, 5, 2)
+
+var stats: StatSystem
 var attack_cooldown := 0.0
 var attack_rate = 1.0
+var facing := Vector2.RIGHT
+var is_invincible := false
+
 var damage_number_scene = preload("res://scenes/ui/damage_number.tscn")
+var slash_effect_scene = preload("res://scenes/ui/slash_effect.tscn")
+var death_effect_scene = preload("res://scenes/ui/death_effect.tscn")
+var projectile_scene = preload("res://scenes/entities/projectile.tscn")
+
+var skill_slots := {
+	"q": null,
+	"w": null,
+	"e": null,
+	"r": null
+}
 
 signal enemy_killed(enemy: Node)
+
+
+
+func _ready() -> void:
+	match GameState.selected_class:
+		"dealer":
+			stats = StatSystem.new(20, 8, 1)
+		"tanker":
+			stats = StatSystem.new(50, 3, 4)
+		"healer":
+			stats = StatSystem.new(30, 5, 2)
+			
 
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO
@@ -27,20 +53,69 @@ func _physics_process(delta: float) -> void:
 		attack_cooldown -= delta
 		
 	if Input.is_action_just_pressed("attack") and attack_cooldown <= 0:
-		_melee_attack()
+		match GameState.selected_class:
+			"dealer":
+				_melee_attack(PI / 3.0, 40.0)
+			"tanker":
+				_melee_attack(PI / 6.0, 25.0)
+			"healer":
+				_ranged_attack()
 		
 	if stats.is_dead():
-		get_tree().quit()
+		get_tree().change_scene_to_file("res://scenes/ui/game_over.tscn")
+		
+	if direction != Vector2.ZERO:
+		facing = direction.normalized()
+		
+	for key in skill_slots:
+		var skill = skill_slots[key]
+		if skill:
+			skill.update(delta)
+	
+	if Input.is_action_just_pressed("skill_q"):
+		_use_skill("q")
+	if Input.is_action_just_pressed("skill_w"):
+		_use_skill("w")
+	if Input.is_action_just_pressed("skill_e"):
+		_use_skill("e")
+	if Input.is_action_just_pressed("skill_r"):
+		_use_skill("r")
 
-func _melee_attack() -> void:
+func _use_skill(slot: String) -> void:
+	var skill = skill_slots[slot]
+	if skill == null:
+		return
+	if not skill.is_ready():
+		return
+		
+	skill.trigger()
+	skill.execute(self)
+	
+func _melee_attack(angle_range: float, attack_range: float) -> void:
 	attack_cooldown = attack_rate
+	
+	var effect := slash_effect_scene.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.init(position, facing, angle_range)
+	
+	var attack_dir := facing
 	
 	var bodies := get_tree().get_nodes_in_group("enemies")
 	
 	for enemy in bodies:
 		var distance := position.distance_to(enemy.position)
-		if distance < 40.0:
+		var to_enemy: Vector2 = (enemy.position - position).normalized()
+		var angle_diff := attack_dir.angle_to(to_enemy)
+		
+		if distance < attack_range and abs(angle_diff) < angle_range:
 			attack_enemy(enemy)
+			
+func _ranged_attack() -> void:
+	attack_cooldown = attack_rate
+	
+	var projectile := projectile_scene.instantiate()
+	get_tree().current_scene.add_child(projectile)
+	projectile.init(position, facing, stats.attack, self)
 
 func attack_enemy(enemy: Node) -> void:
 	var damage := stats.attack
@@ -54,5 +129,26 @@ func attack_enemy(enemy: Node) -> void:
 	enemy.knockback(knockback_dir)
 	
 	if enemy.stats.is_dead():
-		emit_signal("enemy_killed", enemy)
-		enemy.queue_free()
+		kill_enemy(enemy)
+	
+func kill_enemy(enemy: Node) -> void:
+	var effect := death_effect_scene.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.init(enemy.position)
+	emit_signal("enemy_killed", enemy)
+	enemy.queue_free()
+	
+func add_skill(skill_id: String) -> bool:
+	for key in skill_slots:
+		if skill_slots[key] == null:
+			skill_slots[key] = SkillDatabase.create_skill(skill_id)
+			print(key, " 슬롯에 ", skill_id, " 장착됨")
+			return true
+	return false
+	
+func activate_shield(duration: float) -> void:
+	is_invincible = true
+	modulate = Color(0.5, 0.8, 1.0)
+	await get_tree().create_timer(duration).timeout
+	is_invincible = false
+	modulate = Color.WHITE

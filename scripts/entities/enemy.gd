@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 50.0
-var stats := StatSystem.new(10, 3, 1)
+var stats := StatSystem.new(10, 6, 1)
 var attack_cooldown := 0.0
 var attack_rate := 1.0
 var knockback_velocity := Vector2.ZERO
@@ -19,7 +19,10 @@ func _physics_process(delta: float) -> void:
 			knockback_velocity = Vector2.ZERO
 	else:
 		var direction: Vector2 = (player.position - position).normalized()
-		velocity = direction * SPEED
+		if position.distance_to(player.position) > 20.0:
+			velocity = direction * SPEED
+		else:
+			velocity = Vector2.ZERO
 	
 	move_and_slide()
 	
@@ -32,7 +35,9 @@ func _physics_process(delta: float) -> void:
 		
 func _attack_player() -> void:
 	attack_cooldown = attack_rate
+	if player.is_invincible:
+		return
 	player.stats.take_damage(stats.attack)
 	
 func knockback(direction: Vector2) -> void:
-	knockback_velocity = direction * 250.0
+	knockback_velocity = direction * 80.0

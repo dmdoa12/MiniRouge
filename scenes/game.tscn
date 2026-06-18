@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://1atrrpkbn5y6" path="res://scripts/world/game_map.gd" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://co48ffdpxn4nb" path="res://scenes/entities/player.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bewooo82kx6o3" path="res://scenes/ui/hud.tscn" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://b5vkgaio4le3v" path="res://scenes/ui/skill_selection.tscn" id="6_p57ef"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iywne"]
 texture = ExtResource("1_lnu2h")
@@ -32,3 +33,5 @@ script = ExtResource("2_lnu2h")
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1404010092]
 
 [node name="HUD" parent="." unique_id=1110014038 instance=ExtResource("5_iywne")]
+
+[node name="SkillSelection" parent="." unique_id=380347930 instance=ExtResource("6_p57ef")]

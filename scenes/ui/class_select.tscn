@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bkabffpbdw2jw"]
+
+[ext_resource type="Script" uid="uid://o8l4gq7py3n1" path="res://scripts/ui/class_select.gd" id="1_mmyox"]
+
+[node name="ClassSelect" type="Control" unique_id=1452793174]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mmyox")
+
+[node name="Label" type="Label" parent="." unique_id=1539038882]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.5
+offset_top = -140.0
+offset_right = 72.5
+offset_bottom = -93.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 34
+text = "직업 선택"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1065610260]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="DealerButton" type="Button" parent="HBoxContainer" unique_id=186495311]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+text = "딜러
+"
+
+[node name="TankerButton" type="Button" parent="HBoxContainer" unique_id=597070633]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+text = "탱커"
+
+[node name="HealerButton" type="Button" parent="HBoxContainer" unique_id=599271425]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+text = "힐러"

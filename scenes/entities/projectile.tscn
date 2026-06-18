@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b818b7bc56l4c"]
+
+[ext_resource type="Script" uid="uid://e1brdvjxnvxp" path="res://scripts/entities/projectile.gd" id="1_2lp3u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d0iv2"]
+radius = 4.0
+
+[node name="Projectile" type="Area2D" unique_id=1830237182]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_2lp3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=868880810]
+shape = SubResource("CircleShape2D_d0iv2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2121219841]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+color = Color(0.16862746, 1, 1, 1)
+
+[node name="RayCast" type="RayCast2D" parent="." unique_id=165396306]
+target_position = Vector2(8, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

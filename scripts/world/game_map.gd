@@ -85,7 +85,7 @@ func _spawn_all_enemies() -> void:
 			var spawn_pos := Vector2((origin.x + tile_x) * TILE_SIZE, (origin.y + tile_y) * TILE_SIZE)
 			var enemy := enemy_scene.instantiate()
 			get_tree().current_scene.add_child.call_deferred(enemy)
-			enemy.init_pos(spawn_pos, player)
+			enemy.init_pos(spawn_pos, player, current_floor)
 			enemies.append(enemy)
 
 func _on_enemy_killed(enemy: Node) -> void:

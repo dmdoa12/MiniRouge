@@ -1,6 +1,14 @@
 extends CharacterBody2D
 
+const BASE_HP = 10
+const BASE_ATK = 3
+const BASE_DEF = 1
+const HP_PER_FLOOR = 5
+const ATK_PER_FLOOR = 1
+const BASE_XP_REWARD = 2
+const XP_PER_FLOOR = 1
 const SPEED = 50.0
+
 var stats := StatSystem.new(10, 3, 1)
 var xp_reward := 2
 var attack_cooldown := 0.0
@@ -9,9 +17,10 @@ var knockback_velocity := Vector2.ZERO
 var player: Node
 var flash_tween: Tween
 
-func init_pos(start_pos: Vector2, player_node: Node) -> void:
+func init_pos(start_pos: Vector2, player_node: Node, floor: int) -> void:
 	player = player_node
 	position = start_pos
+	_apply_floor_scaling(floor)
 
 func _physics_process(delta: float) -> void:
 	if knockback_velocity.length() > 0:
@@ -50,3 +59,9 @@ func flash() -> void:
 	modulate = Color(5, 5, 5)
 	flash_tween = create_tween()
 	flash_tween.tween_property(self, "modulate", Color.WHITE, 0.15)
+
+func _apply_floor_scaling(floor: int) -> void:
+	var hp := BASE_HP + (floor - 1) * HP_PER_FLOOR
+	var atk := BASE_ATK + (floor - 1) * ATK_PER_FLOOR
+	stats = StatSystem.new(hp, atk, BASE_DEF)
+	xp_reward = BASE_XP_REWARD + (floor - 1) * XP_PER_FLOOR

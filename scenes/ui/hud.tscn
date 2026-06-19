@@ -6,6 +6,9 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mwgc"]
 bg_color = Color(1, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqnrr"]
+bg_color = Color(0.9030371, 0.037231445, 0.953125, 1)
+
 [node name="HUD" type="CanvasLayer" unique_id=1110014038]
 script = ExtResource("1_0mwgc")
 
@@ -82,3 +85,22 @@ layout_mode = 2
 
 [node name="SlotR" parent="SkillSlots" unique_id=21682926 instance=ExtResource("2_hqnrr")]
 layout_mode = 2
+
+[node name="BossBar" type="ProgressBar" parent="." unique_id=610167985]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 27.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_hqnrr")
+show_percentage = false
+
+[node name="BossLabel" type="Label" parent="BossBar" unique_id=645657846]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1

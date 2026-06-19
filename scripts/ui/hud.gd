@@ -10,6 +10,8 @@ extends CanvasLayer
 @onready var slot_w = $SkillSlots/SlotW
 @onready var slot_e = $SkillSlots/SlotE
 @onready var slot_r = $SkillSlots/SlotR
+@onready var boss_bar = $BossBar
+@onready var boss_label = $BossBar/BossLabel
 
 const ROOM_CELL_SIZE = 10
 const ROOM_GAP = 2
@@ -18,6 +20,7 @@ var player: Node
 var game_map : Node
 var hp_tween: Tween
 var xp_tween: Tween
+var boss_tween: Tween
 
 func init(player_node: Node, game_map_node: Node) -> void:
 	player = player_node
@@ -43,6 +46,18 @@ func _process(delta: float) -> void:
 			xp_tween.kill()
 		xp_tween = create_tween()
 		xp_tween.tween_property(xp_bar, "value", player.level_system.current_xp, 0.3)
+		
+	if is_instance_valid(game_map.boss):
+		boss_bar.show()
+		boss_label.text = "%d / %d" % [game_map.boss.stats.hp, game_map.boss.stats.max_hp]
+		boss_bar.max_value = game_map.boss.stats.max_hp
+		if boss_bar.value != game_map.boss.stats.hp:
+			if boss_tween:
+				boss_tween.kill()
+			boss_tween = create_tween()
+			boss_tween.tween_property(boss_bar, "value", game_map.boss.stats.hp, 0.3)
+	else:
+		boss_bar.hide()
 	
 	update_minimap()
 	_update_skill_slots()

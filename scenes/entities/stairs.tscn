@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://blh2fa4ros7h2"]
+
+[ext_resource type="Script" uid="uid://d2x1l7bonxgfr" path="res://scripts/entities/stairs.gd" id="1_eccch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w4ukt"]
+size = Vector2(32, 32)
+
+[node name="Stairs" type="Area2D" unique_id=1583498394]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_eccch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1389185387]
+shape = SubResource("RectangleShape2D_w4ukt")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2052956368]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.02279663, 0.9281316, 0.97265625, 1)

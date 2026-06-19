@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	if player:
 		hp_label.text = "HP: %d / %d" % [player.stats.hp, player.stats.max_hp]
 	if game_map:
-		floor_label.text = "층: %d 방: %d / %d" % [game_map.current_floor, game_map.current_room_index, game_map.total_rooms]
+		floor_label.text = "층: %d" % game_map.current_floor
 		
 	hp_bar.max_value = player.stats.max_hp
 	if hp_bar.value != player.stats.hp:
@@ -44,7 +44,7 @@ func _update_skill_slots() -> void:
 func update_minimap() -> void:
 	for child in mini_map.get_children():
 		child.queue_free()
-		
+	var current: Vector2i = game_map.player_grid_pos()	
 	for room_pos in game_map.generator.rooms:
 		var room: DungeonGenerator.RoomData = game_map.generator.rooms[room_pos]
 		
@@ -55,7 +55,7 @@ func update_minimap() -> void:
 		rect.size = Vector2(ROOM_CELL_SIZE, ROOM_CELL_SIZE)
 		rect.position = Vector2(room_pos * (ROOM_CELL_SIZE + ROOM_GAP))
 		
-		if room_pos == game_map.current_room_pos:
+		if room_pos == current:
 			rect.color = Color.YELLOW
 		elif room.cleared:
 			rect.color = Color(0.5, 0.5, 0.5)

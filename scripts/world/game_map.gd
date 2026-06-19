@@ -36,6 +36,7 @@ var current_floor := 1
 var pending_levelups := 0
 
 func _ready() -> void:
+	Engine.time_scale = 1.0
 	generator.generate()
 	draw_full_map()
 	_place_player_at(generator.start_room)
@@ -154,7 +155,7 @@ func _spawn_boss() -> void:
 
 func _win() -> void:
 	boss = null
-	print("승리!")
+	get_tree().change_scene_to_file("res://scenes/ui/win.tscn")
 
 func _next_floor() -> void:
 	if is_transitioning:

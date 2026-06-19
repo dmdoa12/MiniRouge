@@ -2,7 +2,7 @@ extends SkillBase
 class_name FireballSkill
 
 func _init() -> void:
-	super("fireball", "화염구", 2.0)
+	super("fireball", "화염구", 2.0, [Tags.PROJECTILE, Tags.FIRE])
 
 func execute(player: Node) -> void:
 	var projectile: Node = player.projectile_scene.instantiate()

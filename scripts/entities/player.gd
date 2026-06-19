@@ -100,7 +100,6 @@ func _on_level_up(new_level: int) -> void:
 	stats.max_hp += 5
 	stats.hp += 5
 	stats.attack += 1
-	print("레벨업! Lv", new_level, " HP ", stats.hp, "/", stats.max_hp, " ATK ", stats.attack)
 	
 func _melee_attack(angle_range: float, attack_range: float) -> void:
 	attack_cooldown = attack_rate
@@ -147,11 +146,12 @@ func kill_enemy(enemy: Node) -> void:
 	get_tree().current_scene.add_child(effect)
 	effect.init(enemy.position)
 	level_system.add_xp(enemy.xp_reward)
-	print("XP +", enemy.xp_reward, " → Lv", level_system.level, " (", level_system.current_xp, "/", level_system.xp_to_next, ")")
 	emit_signal("enemy_killed", enemy)
 	enemy.queue_free()
 	
 func add_skill(skill_id: String) -> bool:
+	if skill_id in owned_skill_ids():
+		return false
 	for key in skill_slots:
 		if skill_slots[key] == null:
 			skill_slots[key] = SkillDatabase.create_skill(skill_id)
@@ -165,3 +165,14 @@ func activate_shield(duration: float) -> void:
 	await get_tree().create_timer(duration).timeout
 	is_invincible = false
 	modulate = Color.WHITE
+	
+func owned_skill_ids() -> Array:
+	var ids := []
+	for key in skill_slots:
+		var skill = skill_slots[key]
+		if skill:
+			ids.append(skill.id)
+	return ids
+
+
+	

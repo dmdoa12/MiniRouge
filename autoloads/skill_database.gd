@@ -8,8 +8,11 @@ var skill_pool := [
 	{"id": "shield", "name": "보호막", "cooldown": 6.0},
 ]
 
-func get_random_skills(count: int) -> Array:
-	var pool := skill_pool.duplicate()
+func get_random_skills(count: int, exclude_ids: Array = []) -> Array:
+	var pool := []
+	for entry in skill_pool:
+		if entry["id"] not in exclude_ids:
+			pool.append(entry)
 	pool.shuffle()
 	return pool.slice(0, count)
 

@@ -7,6 +7,7 @@ var level_system: LevelSystem
 var attack_cooldown := 0.0
 var attack_rate = 1.0
 var facing := Vector2.RIGHT
+var synergies: Array = []
 var is_invincible := false
 var is_hitstop := false
 
@@ -23,7 +24,6 @@ var skill_slots := {
 }
 
 signal player_leveled_up(new_level: int)
-signal enemy_killed(enemy: Node)
 
 
 
@@ -38,6 +38,7 @@ func _ready() -> void:
 			
 	level_system = LevelSystem.new()
 	level_system.leveled_up.connect(_on_level_up)
+	add_synergy(FireKillCooldown.new())   # 테스트용 — 나중에 드랍/드래프트로 교체
 
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO
@@ -152,7 +153,7 @@ func kill_enemy(enemy: Node) -> void:
 	get_tree().current_scene.add_child(effect)
 	effect.init(enemy.position)
 	level_system.add_xp(enemy.xp_reward)
-	emit_signal("enemy_killed", enemy)
+	Events.enemy_killed.emit(enemy)
 	enemy.queue_free()
 	shake_camera(0.5)
 	
@@ -193,3 +194,6 @@ func hitstop(duration: float = 0.05) -> void:
 	Engine.time_scale = 1.0
 	is_hitstop = false
 	
+func add_synergy(synergy: SynergyBase) -> void:
+	synergies.append(synergy)
+	synergy.setup(self)

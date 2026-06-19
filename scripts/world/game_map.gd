@@ -41,7 +41,7 @@ func _ready() -> void:
 	draw_full_map()
 	_place_player_at(generator.start_room)
 	_spawn_all_enemies()
-	player.enemy_killed.connect(_on_enemy_killed)
+	Events.enemy_killed.connect(_on_enemy_killed)
 	hud.init(player, self)
 	skill_select.skill_chosen.connect(_on_skill_chosen)
 	player.player_leveled_up.connect(_on_player_leveled_up)

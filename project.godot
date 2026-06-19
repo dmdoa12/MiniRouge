@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*uid://ujejmpp0bdro"
 SkillDatabase="*uid://cr1ep0p70etc3"
 Transition="*uid://pgm3ihxkg2sv"
+Events="*uid://ca0k2hkrd66i0"
 
 [display]
 

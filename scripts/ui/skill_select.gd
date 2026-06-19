@@ -10,16 +10,22 @@ func _ready() -> void:
 	$Background/CardContainer/Card2.pressed.connect(func(): _on_card_pressed(1))
 	$Background/CardContainer/Card3.pressed.connect(func(): _on_card_pressed(2))
 
-func show_cards() -> void:
-	current_skills = SkillDatabase.get_random_skills(3)
+func show_cards(exclude_ids := []) -> void:
+	current_skills = SkillDatabase.get_random_skills(3, exclude_ids)
+	if current_skills.is_empty():
+		return
 	
 	var cards := [
 		$Background/CardContainer/Card1,
 		$Background/CardContainer/Card2,
 		$Background/CardContainer/Card3,
 	]
-	for i in range(3):
-		cards[i].text = current_skills[i]["name"]
+	for i in range(cards.size()):
+		if i < current_skills.size():
+			cards[i].text = current_skills[i]["name"]
+			cards[i].show()
+		else:
+			cards[i].hide()
 	
 	show()
 	get_tree().paused = true

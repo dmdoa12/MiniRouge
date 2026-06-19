@@ -37,6 +37,10 @@ func _ready() -> void:
 	player.enemy_killed.connect(_on_enemy_killed)
 	hud.init(player, self)
 	skill_select.skill_chosen.connect(_on_skill_chosen)
+	player.player_leveled_up.connect(_on_player_leveled_up)
+
+func _on_player_leveled_up(_new_level: int) -> void:
+	skill_select.show_cards(player.owned_skill_ids())
 
 func room_origin(grid_pos: Vector2i) -> Vector2i:
 	return Vector2i(grid_pos.x * (ROOM_WIDTH + ROOM_GAP), grid_pos.y * (ROOM_HEIGHT + ROOM_GAP))

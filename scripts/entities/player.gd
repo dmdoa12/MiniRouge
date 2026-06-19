@@ -21,6 +21,7 @@ var skill_slots := {
 	"r": null
 }
 
+signal player_leveled_up(new_level: int)
 signal enemy_killed(enemy: Node)
 
 
@@ -100,6 +101,7 @@ func _on_level_up(new_level: int) -> void:
 	stats.max_hp += 5
 	stats.hp += 5
 	stats.attack += 1
+	player_leveled_up.emit(new_level)
 	
 func _melee_attack(angle_range: float, attack_range: float) -> void:
 	attack_cooldown = attack_rate

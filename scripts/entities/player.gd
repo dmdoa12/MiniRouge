@@ -8,6 +8,7 @@ var attack_cooldown := 0.0
 var attack_rate = 1.0
 var facing := Vector2.RIGHT
 var is_invincible := false
+var is_hitstop := false
 
 var damage_number_scene = preload("res://scenes/ui/damage_number.tscn")
 var slash_effect_scene = preload("res://scenes/ui/slash_effect.tscn")
@@ -139,6 +140,9 @@ func attack_enemy(enemy: Node) -> void:
 	
 	var knockback_dir: Vector2 = (enemy.position - position).normalized()
 	enemy.knockback(knockback_dir)
+	enemy.flash()
+	shake_camera(0.3)
+	hitstop()
 	
 	if enemy.stats.is_dead():
 		kill_enemy(enemy)
@@ -150,6 +154,7 @@ func kill_enemy(enemy: Node) -> void:
 	level_system.add_xp(enemy.xp_reward)
 	emit_signal("enemy_killed", enemy)
 	enemy.queue_free()
+	shake_camera(0.5)
 	
 func add_skill(skill_id: String) -> bool:
 	if skill_id in owned_skill_ids():
@@ -176,5 +181,15 @@ func owned_skill_ids() -> Array:
 			ids.append(skill.id)
 	return ids
 
+func shake_camera(amount: float) -> void:
+	$Camera2D.add_trauma(amount)
 
+func hitstop(duration: float = 0.05) -> void:
+	if is_hitstop:
+		return
+	is_hitstop = true
+	Engine.time_scale = 0.05
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1.0
+	is_hitstop = false
 	

@@ -30,6 +30,10 @@ func _on_body_entered(body: Node) -> void:
 		var dmg_number := damage_number_scene.instantiate()
 		get_tree().current_scene.add_child(dmg_number)
 		dmg_number.init(actual_damage, body.position)
+		body.flash()
+		if source:
+			source.shake_camera(0.3)
+			source.hitstop()
 		
 		if body.stats.is_dead():
 			if source:

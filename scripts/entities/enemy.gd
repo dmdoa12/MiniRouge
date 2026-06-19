@@ -7,6 +7,7 @@ var attack_cooldown := 0.0
 var attack_rate := 1.0
 var knockback_velocity := Vector2.ZERO
 var player: Node
+var flash_tween: Tween
 
 func init_pos(start_pos: Vector2, player_node: Node) -> void:
 	player = player_node
@@ -42,3 +43,10 @@ func _attack_player() -> void:
 	
 func knockback(direction: Vector2) -> void:
 	knockback_velocity = direction * 80.0
+
+func flash() -> void:
+	if flash_tween:
+		flash_tween.kill()
+	modulate = Color(5, 5, 5)
+	flash_tween = create_tween()
+	flash_tween.tween_property(self, "modulate", Color.WHITE, 0.15)

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://1atrrpkbn5y6" path="res://scripts/world/game_map.gd" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://co48ffdpxn4nb" path="res://scenes/entities/player.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bewooo82kx6o3" path="res://scenes/ui/hud.tscn" id="5_iywne"]
-[ext_resource type="Script" uid="uid://bqf0yklbxqt6s" path="res://scripts/entities/camera_shaked.gd" id="5_u5sy4"]
+[ext_resource type="Script" uid="uid://bqf0yklbxqt6s" path="res://scripts/entities/camera_shake.gd" id="5_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://b5vkgaio4le3v" path="res://scenes/ui/skill_selection.tscn" id="6_p57ef"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iywne"]

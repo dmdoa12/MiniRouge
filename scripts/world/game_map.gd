@@ -105,6 +105,7 @@ func _on_stairs_entered() -> void:
 	_next_floor()
 
 func _next_floor() -> void:
+	await Transition.fade_to_black()
 	current_floor += 1
 	if current_stairs:
 		current_stairs.queue_free()
@@ -113,7 +114,8 @@ func _next_floor() -> void:
 	draw_full_map()
 	_place_player_at(generator.start_room)
 	_spawn_all_enemies()
-
+	await Transition.fade_from_black()		
+			
 func _carve_doors() -> void:
 	for grid_pos in generator.rooms:
 		var room: DungeonGenerator.RoomData = generator.rooms[grid_pos]

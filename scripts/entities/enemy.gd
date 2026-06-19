@@ -9,6 +9,7 @@ const BASE_XP_REWARD = 2
 const XP_PER_FLOOR = 1
 const SPEED = 50.0
 
+
 var stats := StatSystem.new(10, 3, 1)
 var xp_reward := 2
 var attack_cooldown := 0.0
@@ -65,3 +66,8 @@ func _apply_floor_scaling(floor: int) -> void:
 	var atk := BASE_ATK + (floor - 1) * ATK_PER_FLOOR
 	stats = StatSystem.new(hp, atk, BASE_DEF)
 	xp_reward = BASE_XP_REWARD + (floor - 1) * XP_PER_FLOOR
+	
+func make_boss() -> void:
+	stats = StatSystem.new(stats.max_hp * 8, stats.attack * 2, BASE_DEF + 2)
+	xp_reward *= 5
+	scale = Vector2(2.0, 2.0)  # 시각적으로 크게

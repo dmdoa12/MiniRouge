@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 const SPEED = 50.0
 var stats := StatSystem.new(10, 3, 1)
+var xp_reward := 2
 var attack_cooldown := 0.0
 var attack_rate := 1.0
 var knockback_velocity := Vector2.ZERO

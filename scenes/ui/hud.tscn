@@ -9,14 +9,46 @@ bg_color = Color(1, 0, 0, 1)
 [node name="HUD" type="CanvasLayer" unique_id=1110014038]
 script = ExtResource("1_0mwgc")
 
-[node name="HPLabel" type="Label" parent="." unique_id=714417831]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="StatusPanel" type="VBoxContainer" parent="." unique_id=1447122641]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 72.0
 
-[node name="FloorLabel" type="Label" parent="." unique_id=712111944]
-offset_top = 30.0
-offset_right = 40.0
-offset_bottom = 53.0
+[node name="HPBar" type="ProgressBar" parent="StatusPanel" unique_id=1289735096]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/fill = SubResource("StyleBoxFlat_0mwgc")
+max_value = 30.0
+value = 30.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="StatusPanel/HPBar" unique_id=714417831]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XPBar" type="ProgressBar" parent="StatusPanel" unique_id=686231855]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="LevelLabel" type="Label" parent="StatusPanel/XPBar" unique_id=2008902876]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FloorLabel" type="Label" parent="StatusPanel" unique_id=712111944]
+layout_mode = 2
 
 [node name="MiniMap" type="Control" parent="." unique_id=200323796]
 layout_mode = 3
@@ -26,15 +58,6 @@ anchor_right = 1.0
 offset_left = -100.0
 offset_bottom = 100.0
 grow_horizontal = 0
-
-[node name="HPBar" type="ProgressBar" parent="." unique_id=1289735096]
-offset_top = 55.0
-offset_right = 100.0
-offset_bottom = 82.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_styles/fill = SubResource("StyleBoxFlat_0mwgc")
-max_value = 30.0
-value = 30.0
 
 [node name="SkillSlots" type="HBoxContainer" parent="." unique_id=31961182]
 anchors_preset = 7

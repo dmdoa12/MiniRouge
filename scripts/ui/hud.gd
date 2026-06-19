@@ -1,9 +1,11 @@
 extends CanvasLayer
 
-@onready var hp_label = $HPLabel
-@onready var floor_label = $FloorLabel
+@onready var floor_label = $StatusPanel/FloorLabel
+@onready var hp_bar = $StatusPanel/HPBar
+@onready var hp_label = $StatusPanel/HPBar/HPLabel
+@onready var xp_bar = $StatusPanel/XPBar
+@onready var level_label = $StatusPanel/XPBar/LevelLabel
 @onready var mini_map = $MiniMap
-@onready var hp_bar = $HPBar
 @onready var slot_q = $SkillSlots/SlotQ
 @onready var slot_w = $SkillSlots/SlotW
 @onready var slot_e = $SkillSlots/SlotE
@@ -15,6 +17,7 @@ const ROOM_GAP = 2
 var player: Node
 var game_map : Node
 var hp_tween: Tween
+var xp_tween: Tween
 
 func init(player_node: Node, game_map_node: Node) -> void:
 	player = player_node
@@ -23,6 +26,7 @@ func init(player_node: Node, game_map_node: Node) -> void:
 func _process(delta: float) -> void:
 	if player:
 		hp_label.text = "HP: %d / %d" % [player.stats.hp, player.stats.max_hp]
+		level_label.text = "Lv: %d" % player.level_system.level
 	if game_map:
 		floor_label.text = "층: %d" % game_map.current_floor
 		
@@ -32,6 +36,14 @@ func _process(delta: float) -> void:
 			hp_tween.kill()
 		hp_tween = create_tween()
 		hp_tween.tween_property(hp_bar, "value", player.stats.hp, 0.3)
+		
+	xp_bar.max_value = player.level_system.xp_to_next
+	if xp_bar.value != player.level_system.current_xp:
+		if xp_tween:
+			xp_tween.kill()
+		xp_tween = create_tween()
+		xp_tween.tween_property(xp_bar, "value", player.level_system.current_xp, 0.3)
+	
 	update_minimap()
 	_update_skill_slots()
 	

@@ -3,6 +3,7 @@ extends CharacterBody2D
 const SPEED = 100.0
 
 var stats: StatSystem
+var level_system: LevelSystem
 var attack_cooldown := 0.0
 var attack_rate = 1.0
 var facing := Vector2.RIGHT
@@ -33,6 +34,8 @@ func _ready() -> void:
 		"healer":
 			stats = StatSystem.new(30, 5, 2)
 			
+	level_system = LevelSystem.new()
+	level_system.leveled_up.connect(_on_level_up)
 
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO
@@ -60,6 +63,8 @@ func _physics_process(delta: float) -> void:
 				_melee_attack(PI / 6.0, 25.0)
 			"healer":
 				_ranged_attack()
+		
+		
 		
 	if stats.is_dead():
 		get_tree().change_scene_to_file("res://scenes/ui/game_over.tscn")
@@ -90,6 +95,12 @@ func _use_skill(slot: String) -> void:
 		
 	skill.trigger()
 	skill.execute(self)
+
+func _on_level_up(new_level: int) -> void:
+	stats.max_hp += 5
+	stats.hp += 5
+	stats.attack += 1
+	print("레벨업! Lv", new_level, " HP ", stats.hp, "/", stats.max_hp, " ATK ", stats.attack)
 	
 func _melee_attack(angle_range: float, attack_range: float) -> void:
 	attack_cooldown = attack_rate
@@ -135,6 +146,8 @@ func kill_enemy(enemy: Node) -> void:
 	var effect := death_effect_scene.instantiate()
 	get_tree().current_scene.add_child(effect)
 	effect.init(enemy.position)
+	level_system.add_xp(enemy.xp_reward)
+	print("XP +", enemy.xp_reward, " → Lv", level_system.level, " (", level_system.current_xp, "/", level_system.xp_to_next, ")")
 	emit_signal("enemy_killed", enemy)
 	enemy.queue_free()
 	
